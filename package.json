@@ -17,7 +17,8 @@
     "vue-carousel": "^0.18.0",
     "vue-firestore": "^0.3.22",
     "vue-router": "^3.0.3",
-    "vue-sweetalert2": "^2.1.1"
+    "vue-sweetalert2": "^2.1.1",
+    "vue2-editor": "^2.10.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",

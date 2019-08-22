@@ -32,64 +32,20 @@
 	</div>
 </a>
 	</li>
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Kitchen equipments collection</p>
-		<img class="img-sm" src="images/items/2.jpg">
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Accessiries and other good items</p>
-		<img class="img-sm" src="images/items/3.jpg">
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Techs, Electronics</p>
-		<img class="img-sm" src="images/items/4.jpg">
-	</div>
-</a>	
-	</li>
+
 </ul>
 <ul class="row no-gutters border-cols">
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Home and kitchen electronic stuff </p>
-		<img class="img-sm" src="images/items/1.jpg">
-	</div>
-</a>
+	<li class="col-6 col-md-3" v-for="(product,index) in products" v-bind:key="index" >
+		<a href="#" class="itembox"> 
+			<div class="card-body">
+				<p class="word-limit">{{product.name}}</p>
+				<img class="img-sm" :src="getImage(product.images)">
+			</div>
+		</a>
 	</li>
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Kitchen equipments collection</p>
-		<img class="img-sm" src="images/items/2.jpg">
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Accessiries and other good items</p>
-		<img class="img-sm" src="images/items/3.jpg">
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Techs, Electronics</p>
-		<img class="img-sm" src="images/items/4.jpg">
-	</div>
-</a>	
-	</li>
+
+	
+
 </ul>
 	</div> <!-- col.// -->
 </div> <!-- row.// -->
@@ -102,11 +58,32 @@
 </template>
 
 <script>
+import {db} from '../firebase';
+
 export default {
   name: "HomeCategory",
   props: {
     msg: String
-  }
+  },
+  data(){
+    return {
+        products: [],
+     
+    }
+  },
+
+  methods:{
+
+    getImage(images){
+      return images[0];
+    }
+
+  },
+  firestore(){
+      return {
+        products: db.collection('products').where("name"| "Iron 351122"),
+      }
+  },
 };
 </script>
 

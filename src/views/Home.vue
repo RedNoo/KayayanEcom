@@ -8,7 +8,7 @@
     <HomeRecommendedItems></HomeRecommendedItems>
     <HomeLinks></HomeLinks>
     <HomeSubscribe></HomeSubscribe>
-<Footer></Footer>
+    <Footer></Footer>
   </div>
 </template>
 
