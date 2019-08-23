@@ -45,10 +45,10 @@
 <!-- ================= main slide ================= -->
 <carousel :perPage="1" :autoplay="true" :paginationPadding="2">
   <slide >
-    <img width="93%" src="images/banners/slide1.jpg">
+    <img width="100%" src="images/banners/slide1.jpg">
   </slide>
   <slide>
-    <img width="93%" src="images/banners/slide2.jpg">
+    <img width="100%" src="images/banners/slide2.jpg">
   </slide>
 </carousel>
 

@@ -4,7 +4,7 @@
 <div class="container">
 
 <header class="section-heading heading-line">
-	<h4 class="title-section bg">MACHINERY</h4>
+	<h4 class="title-section bg">{{category}}</h4>
 </header>
 
 <div class="card">
@@ -24,19 +24,19 @@
 	</div> <!-- col.// -->
 	<div class="col-md-9">
 <ul class="row no-gutters border-cols">
-	<li class="col-6 col-md-3">
-<a href="#" class="itembox"> 
-	<div class="card-body">
-		<p class="word-limit">Home and kitchen electronic  stuff collection  </p>
-		<img class="img-sm" src="images/items/1.jpg">
-	</div>
-</a>
+	<li class="col-6 col-md-3" v-for="(product,index) in productsLine1" v-bind:key="index"  >
+		<a href="#" class="itembox" > 
+			<div class="card-body">
+				<p class="word-limit">{{product.name}}</p>
+				<img class="img-sm" :src="getImage(product.images)">
+			</div>
+		</a>
 	</li>
 
 </ul>
 <ul class="row no-gutters border-cols">
-	<li class="col-6 col-md-3" v-for="(product,index) in products" v-bind:key="index" >
-		<a href="#" class="itembox"> 
+	<li class="col-6 col-md-3" v-for="(product,index) in productsLine2" v-bind:key="index"  >
+		<a href="#" class="itembox" > 
 			<div class="card-body">
 				<p class="word-limit">{{product.name}}</p>
 				<img class="img-sm" :src="getImage(product.images)">
@@ -63,11 +63,12 @@ import {db} from '../firebase';
 export default {
   name: "HomeCategory",
   props: {
-    msg: String
+    category: null,
   },
   data(){
     return {
-        products: [],
+        productsLine1: [],
+        productsLine2: [],
      
     }
   },
@@ -81,7 +82,8 @@ export default {
   },
   firestore(){
       return {
-        products: db.collection('products').where("name"| "Iron 351122"),
+        productsLine1: db.collection('products').where("showOnHomepage","==",true).where("homepageLineNo","<=","4"),
+        productsLine2: db.collection('products').where("showOnHomepage","==",true).where("homepageLineNo",">","4"),
       }
   },
 };

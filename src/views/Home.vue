@@ -2,8 +2,8 @@
   <div>
     <Navbar></Navbar>
     <HomeSlider></HomeSlider>
-    <HomeCategory></HomeCategory>
-    <HomeCategory></HomeCategory>
+    <HomeCategory category="Kitchen"></HomeCategory>
+    <HomeCategory category="Electronic"></HomeCategory>
     <HomeRequestForQuotation></HomeRequestForQuotation>
     <HomeRecommendedItems></HomeRecommendedItems>
     <HomeLinks></HomeLinks>
@@ -34,3 +34,6 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+
+</style>
