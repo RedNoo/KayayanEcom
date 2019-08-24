@@ -82,8 +82,8 @@ export default {
   },
   firestore(){
       return {
-        productsLine1: db.collection('products').where("showOnHomepage","==",true).where("homepageLineNo","<=","4"),
-        productsLine2: db.collection('products').where("showOnHomepage","==",true).where("homepageLineNo",">","4"),
+        productsLine1: db.collection('products').where('categories', 'array-contains',this.category).where("showOnHomepage","==",true).where("homepageLineNo","<=","4"),
+        productsLine2: db.collection('products').where('categories', 'array-contains', this.category).where("showOnHomepage","==",true).where("homepageLineNo",">","4"),
       }
   },
 };

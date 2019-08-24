@@ -70,7 +70,7 @@
 import {fb,db} from '../firebase';
 import { firestore } from 'firebase';
 export default {
-  name: "Categories",
+  name: "categories",
   props: {
     msg: String
   },
@@ -90,77 +90,37 @@ export default {
   },
   firestore(){
     return {
-      products: db.collection('products'),
+      categories: db.collection('categories'),
     }
   },
   methods:{
-    deleteImage(img,index) {
-        let image = fb.storage().refFromURL(img);
-            this.product.images.splice(index,1);
-            image.delete().then(function() {
-              console.log('image deleted');
-            }).catch(function(error) {
-              // Uh-oh, an error occurred!
-              console.log('an error occurred');
-            });
-    },
-    uploadImage(e){
-    if(e.target.files[0]){
-      let file = e.target.files[0];
-      console.log(e.target.files[0]);
-      var storageRef = fb.storage().ref('products/'+ Math.floor(Math.random() * 1000000) + 1 + '_'  +  file.name);
-      let uploadTask = storageRef.put(file);
-
-       uploadTask.on('state_changed', (snapshot) => {
-            
-          }, (error) => {
-            // Handle unsuccessful uploads
-          }, () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              this.product.images.push(downloadURL);
-            });
-          });
-        }
-    },
-    addTag(){
-      console.log(this.tag);
-      this.product.tags.push(this.tag)
-      this.tag="";
-    },
     reset(){
-        this.product= {
+        this.category= {
         name: null,
-        description: null,
-        price: null,
-        tags: [],
-        images: []
         }
     },
     addNew(){
       this.modal = 'new';
       this.reset();
-      $('#product').modal('show');
+      $('#category').modal('show');
     },
     
-    updateProduct(){
-       this.$firestore.products.doc(this.product.id).update(this.product);
-      $('#product').modal('hide');
+    updateCategory(){
+       this.$firestore.categories.doc(this.category.id).update(this.category);
+      $('#category').modal('hide');
       
          Toast.fire({
           type: 'success',
-          title: 'Your product updated successfully.'
+          title: 'Your category updated successfully.'
         });
     },
-    editProduct(product){
-      this.product = product;
+    editCategory(category){
+      this.category = category;
       this.modal = 'edit';
      
-      $('#product').modal('show');
+      $('#category').modal('show');
     },
-    deleteProduct(doc){
+    deleteCategory(doc){
             Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -172,7 +132,7 @@ export default {
       }).then((result) => {
         if (result.value) {
           console.log(doc.id);
-          this.$firestore.products.doc(doc.id).delete()
+          this.$firestore.categories.doc(doc.id).delete()
           /*Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
@@ -181,7 +141,7 @@ export default {
 
          Toast.fire({
           type: 'success',
-          title: 'Your product has been deleted.'
+          title: 'Your category has been deleted.'
         });
         }
       });
@@ -189,14 +149,14 @@ export default {
     readData(){
     
     },
-    addProduct(){
-      this.$firestore.products.add(this.product);
-      $('#product').modal('hide');
-       $('#product').modal('hide');
+    addCategory(){
+      this.$firestore.categories.add(this.category);
+      $('#category').modal('hide');
+       $('#category').modal('hide');
       
          Toast.fire({
           type: 'success',
-          title: 'Your product added successfully.'
+          title: 'Your category added successfully.'
         });
   },
 

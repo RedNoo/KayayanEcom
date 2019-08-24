@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Admin from "./views/Admin.vue";
 import AdminProducts from "./views/AdminProducts.vue";
+import AdminCategories from "./views/AdminCategories.vue";
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
           path: "products",
           name: "products",
           component: AdminProducts
+        },
+        {
+          path: "categories",
+          name: "categories",
+          component: AdminCategories
         }
       ]
     },

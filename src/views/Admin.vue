@@ -13,10 +13,11 @@
                 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="#">Home 1</a>
+                        <router-link to="/admin/products"></router-link>
                     </li>
                     <li>
-                        <a href="#">Home 2</a>
+                        <router-link to="/admin/categories"></router-link>
+                        
                     </li>
                     <li>
                         <a href="#">Home 3</a>
