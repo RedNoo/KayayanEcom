@@ -25,23 +25,23 @@
 	<div class="col-md-9">
 <ul class="row no-gutters border-cols">
 	<li class="col-6 col-md-3" v-for="(product,index) in productsLine1" v-bind:key="index"  >
-		<a href="#" class="itembox" > 
+		<router-link :to="{ name: 'product-detail', params: { id: product.slug }}" class="itembox">
 			<div class="card-body">
 				<p class="word-limit">{{product.name}}</p>
 				<img class="img-sm" :src="getImage(product.images)">
 			</div>
-		</a>
+		</router-link>
 	</li>
 
 </ul>
 <ul class="row no-gutters border-cols">
 	<li class="col-6 col-md-3" v-for="(product,index) in productsLine2" v-bind:key="index"  >
-		<a href="#" class="itembox" > 
+		<router-link :to="{ name: 'product-detail', params: { id: product.slug }}" class="itembox">
 			<div class="card-body">
 				<p class="word-limit">{{product.name}}</p>
 				<img class="img-sm" :src="getImage(product.images)">
 			</div>
-		</a>
+		</router-link>
 	</li>
 
 	

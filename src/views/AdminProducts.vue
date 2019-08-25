@@ -72,6 +72,14 @@
                 </div>
 
                 <div class="form-group">
+                  <textarea 
+                    placeholder="Short Description"
+                    v-model="product.shortDescription"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="form-group">
                   <vue-editor v-model="product.description"></vue-editor>
                 </div>
               </div>
@@ -105,8 +113,43 @@
                 <div class="form-group">
                   <input
                     type="text"
+                    placeholder="SKU"
+                    v-model="product.sku"
+                    class="form-control"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="text"
                     placeholder="Old product price"
                     v-model="product.oldPrice"
+                    class="form-control"
+                  />
+                </div>
+                
+                <div class="form-group">
+                  <input
+                    type="text"
+                    placeholder="Rate Count"
+                    v-model="product.rateCount"
+                    class="form-control"
+                  />
+                </div>
+                
+                <div class="form-group">
+                  <input
+                    type="text"
+                    placeholder="Rate Ratio"
+                    v-model="product.rateRatio"
+                    class="form-control"
+                  />
+                </div>
+                 <div class="form-group">
+                  <input
+                    type="text"
+                    placeholder="Order Count"
+                    v-model="product.orderCount"
                     class="form-control"
                   />
                 </div>
@@ -168,6 +211,9 @@
 import { VueEditor } from "vue2-editor";
 import { fb, db } from "../firebase";
 import { firestore } from "firebase";
+
+var dashify = require('dashify');
+
 export default {
   name: "Products",
   props: {
@@ -190,7 +236,13 @@ export default {
         showOnHomepage: null,
         homepageLineNo: null,
         categories: [],
-        recommendedItem: null
+        recommendedItem: null,
+        slug: null,
+        sku:null,
+        shortDescription:null,
+        rateCount: null,
+        rateRatio: null,
+        orderCount: null
       },
       activeItem: null,
       modal: null,
@@ -284,6 +336,9 @@ export default {
     },
 
     updateProduct() {
+      var str = this.product.name;
+      var slug = dashify(str.replace(/[^\x00-\x7F]/g, ""))
+      this.product.slug = slug;
       this.$firestore.products.doc(this.product.id).update(this.product);
       $("#product").modal("hide");
 
@@ -326,6 +381,9 @@ export default {
     },
     readData() {},
     addProduct() {
+      var str = this.product.name;
+      var slug = dashify(str.replace(/[^\x00-\x7F]/g, ""))
+      this.product.slug = slug;
       this.$firestore.products.add(this.product);
       $("#product").modal("hide");
       $("#product").modal("hide");

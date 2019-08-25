@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Admin from "./views/Admin.vue";
 import AdminProducts from "./views/AdminProducts.vue";
 import AdminCategories from "./views/AdminCategories.vue";
+import ProductDetail from "./views/ProductDetail.vue";
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
           component: AdminCategories
         }
       ]
+    },
+    {
+      path: "/products/:id",
+      name: "product-detail",
+      component: ProductDetail
     },
     {
       path: "/about",
