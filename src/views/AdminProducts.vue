@@ -48,7 +48,7 @@
               <div class="col-md-8">
                 <div class="form-group">
                   <select v-model="selectedCategory" class="form-control">
-                    <option disabled value="">Please select one</option>
+                    <option disabled value>Please select one</option>
                     <option
                       v-for="(category,index) in allCategories"
                       v-bind:key="index"
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="form-group">
-                  <textarea 
+                  <textarea
                     placeholder="Short Description"
                     v-model="product.shortDescription"
                     class="form-control"
@@ -89,7 +89,11 @@
                 <hr />
                 <div class="form-group">
                   Show on Homepage :
-                  <input type="checkbox" id="checkbox" v-model="product.showOnHomepage" />
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    v-model="product.showOnHomepage"
+                  />
                   <input
                     type="text"
                     placeholder="Homepage Line No"
@@ -99,7 +103,47 @@
                 </div>
                 <div class="form-group">
                   Recommended Item :
-                  <input type="checkbox" id="checkbox" v-model="product.recommendedItem" />
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    v-model="product.recommendedItem"
+                  />
+                </div>
+                <div class="form-group">
+                  Variants:
+                  <input
+                    type="text"
+                    placeholder="Size"
+                    v-model="variant.size"
+                    class="form-control"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Color"
+                    v-model="variant.color"
+                    class="form-control"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Quantity"
+                    v-model="variant.quantity"
+                    class="form-control"
+                  />
+
+                  <a href="javascript:void(0)" @click="addVariant()" class="btn btn-primary">Add</a>
+                  <div>
+                    <ul class="list-group">
+                      <li
+                        v-for="(variant,index) in product.variants"
+                        v-bind:key="index"
+                        class="list-group-item"
+                      >
+                        <span>Size : {{variant.size}}</span> -
+                        <span>Color : {{variant.color}}</span> -
+                        <span>Quantity : {{variant.quantity}}</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -111,12 +155,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    placeholder="SKU"
-                    v-model="product.sku"
-                    class="form-control"
-                  />
+                  <input type="text" placeholder="SKU" v-model="product.sku" class="form-control" />
                 </div>
 
                 <div class="form-group">
@@ -127,7 +166,7 @@
                     class="form-control"
                   />
                 </div>
-                
+
                 <div class="form-group">
                   <input
                     type="text"
@@ -136,7 +175,7 @@
                     class="form-control"
                   />
                 </div>
-                
+
                 <div class="form-group">
                   <input
                     type="text"
@@ -145,7 +184,7 @@
                     class="form-control"
                   />
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                   <input
                     type="text"
                     placeholder="Order Count"
@@ -166,6 +205,24 @@
                   <div class="d-flex">
                     <p v-for="(tag,index) in product.tags" v-bind:key="index">
                       <span class="p-1">{{tag}}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <select v-model="selectedProduct" class="form-control">
+                    <option disabled value>Please select one</option>
+                    <option
+                      v-for="(product,index) in products"
+                      v-bind:key="index"
+                      :value="product.id"
+                    >{{product.name}}</option>
+                  </select>
+
+                  <button @click="addRelatedProduct()" type="button" class="btn btn-primary">Add</button>
+                  <div class="d-flex">
+                    <p v-for="(relatedProduct,index) in product.relatedproducts" v-bind:key="index">
+                      <span class="p-1">{{relatedProduct.Name}}</span>
                     </p>
                   </div>
                 </div>
@@ -212,7 +269,7 @@ import { VueEditor } from "vue2-editor";
 import { fb, db } from "../firebase";
 import { firestore } from "firebase";
 
-var dashify = require('dashify');
+var dashify = require("dashify");
 
 export default {
   name: "Products",
@@ -226,6 +283,17 @@ export default {
     return {
       products: [],
       allCategories: [],
+      variant: {
+        size: null,
+        color: null,
+        quantity: null
+      },
+      relatedProduct: {
+        id: null,
+        name: null,
+        slug: null,
+        image: null
+      },
       product: {
         name: null,
         description: null,
@@ -238,16 +306,19 @@ export default {
         categories: [],
         recommendedItem: null,
         slug: null,
-        sku:null,
-        shortDescription:null,
+        sku: null,
+        shortDescription: null,
         rateCount: null,
         rateRatio: null,
-        orderCount: null
+        orderCount: null,
+        variants: [],
+        relatedProducts: []
       },
       activeItem: null,
       modal: null,
       tag: null,
-      selectedCategory: null
+      selectedCategory: null,
+      selectedProduct: null
     };
   },
   firestore() {
@@ -257,6 +328,24 @@ export default {
     };
   },
   methods: {
+    addRelatedProduct(){
+      console.log(this.selectedProduct);
+     var tmpProduct = this.products.find(x=>x.id == this.selectedProduct);
+      console.log(tmpProduct.name);
+      this.relatedProduct = { id:tmpProduct.id, name: tmpProduct.name, slug: tmpProduct.slug, image: tmpProduct.images[0]};
+      console.log(this.relatedProduct);
+      if (this.product.relatedProducts == null) this.product.relatedProducts = [];
+      this.product.relatedProducts.push(this.relatedProduct);
+      console.log(this.product.relatedProducts);
+      this.relatedProduct = { id:null, name: null, slug: null, image: null};
+
+    },
+    addVariant() {
+      console.log(this.variant);
+      if (this.product.variants == null) this.product.variants = [];
+      this.product.variants.push(this.variant);
+      this.variant = { size: null, color: null, quantity: null };
+    },
     deleteImage(img, index) {
       let image = fb.storage().refFromURL(img);
       this.product.images.splice(index, 1);
@@ -305,19 +394,17 @@ export default {
     addTag() {
       console.log(this.tag);
       this.product.tags.push(this.tag);
-      this.tag = "";
     },
     addCategory() {
       console.log(this.selectedCategory);
       console.log(this.product.categories);
+      this.variant = { size: null, color: null, quantity: null };
       console.log(this.product.tags);
-      if(this.product.categories == undefined)
-        this.product.categories = [];
-        console.log(this.product.categories);
+      if (this.product.categories == undefined) this.product.categories = [];
+      console.log(this.product.categories);
       this.product.categories.push(this.selectedCategory);
-      this.selectedCategory="";
-        console.log(this.product.categories);
-
+      this.selectedCategory = "";
+      console.log(this.product.categories);
     },
 
     reset() {
@@ -337,7 +424,7 @@ export default {
 
     updateProduct() {
       var str = this.product.name;
-      var slug = dashify(str.replace(/[^\x00-\x7F]/g, ""))
+      var slug = dashify(str.replace(/[^\x00-\x7F]/g, ""));
       this.product.slug = slug;
       this.$firestore.products.doc(this.product.id).update(this.product);
       $("#product").modal("hide");
@@ -382,7 +469,7 @@ export default {
     readData() {},
     addProduct() {
       var str = this.product.name;
-      var slug = dashify(str.replace(/[^\x00-\x7F]/g, ""))
+      var slug = dashify(str.replace(/[^\x00-\x7F]/g, ""));
       this.product.slug = slug;
       this.$firestore.products.add(this.product);
       $("#product").modal("hide");

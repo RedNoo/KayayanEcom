@@ -105,7 +105,7 @@
                     <div class="row">
                       <div class="col-sm-5">
                         <dl class="dlist-inline">
-                          <dt>Quantity:</dt>
+                          <dt>Quantity :   </dt>
                           <dd>
                             <select class="form-control form-control-sm" style="width:70px;">
                               <option>1</option>
@@ -119,40 +119,44 @@
                         </dl>
                         <!-- item-property .// -->
                       </div>
+                    </div>
+                    <div class="row">
                       <!-- col.// -->
-                      <div class="col-sm-7">
+                      <div class="col-sm-6">
                         <dl class="dlist-inline">
-                          <dt>Size:</dt>
+                          <dt>Size   :   </dt>
                           <dd>
-                            <label class="form-check form-check-inline">
+                            <label class="form-check form-check-inline" v-for="(variant,index) in product.variants" v-bind:key="index">
                               <input
                                 class="form-check-input"
                                 name="inlineRadioOptions"
-                                id="inlineRadio2"
-                                value="option2"
+                                :id="variant.id"
+                                :value="variant.size"
                                 type="radio"
+                                v-model="size"
                               />
-                              <span class="form-check-label">SM</span>
+                              <span class="form-check-label">{{variant.size}}</span>
                             </label>
-                            <label class="form-check form-check-inline">
+                          </dd>
+                        </dl>
+                        <!-- item-property .// -->
+                      </div>
+                      <!-- col.// -->
+                       <!-- col.// -->
+                      <div class="col-sm-6">
+                        <dl class="dlist-inline">
+                          <dt>Color   :   </dt>
+                          <dd>
+                            <label class="form-check form-check-inline" v-for="(variant,index) in product.variants" v-bind:key="index">
                               <input
                                 class="form-check-input"
                                 name="inlineRadioOptions"
-                                id="inlineRadio2"
-                                value="option2"
+                                :id="variant.id"
+                                :value="variant.color"
                                 type="radio"
+                                v-model="color"
                               />
-                              <span class="form-check-label">MD</span>
-                            </label>
-                            <label class="form-check form-check-inline">
-                              <input
-                                class="form-check-input"
-                                name="inlineRadioOptions"
-                                id="inlineRadio2"
-                                value="option2"
-                                type="radio"
-                              />
-                              <span class="form-check-label">XXL</span>
+                              <span class="form-check-label">{{variant.color}}</span>
                             </label>
                           </dd>
                         </dl>
@@ -191,17 +195,15 @@
           <!-- col // -->
           <aside class="col-xl-2 col-md-3 col-sm-12">
             <div class="card">
-              <div class="card-header">Trade Assurance</div>
+              <div class="card-header">Warranty & Conditions</div>
               <div class="card-body small">
-                <span>China | Trading Company</span>
-                <hr />Transaction Level: Good
-                <br />Supplier Assessments: Best
-                <hr />11 Transactions $330,000+
-                <hr />Response Time 24h
-                <br />Response Rate: 94%
+                <span>Lorem Ipsum</span>
+                <hr /> Free shipment for 
+                <br />5+ order
+                <hr />4 year warranty
                 <br />
                 <hr />
-                <a href>Visit pofile</a>
+                <a href>More Info</a>
               </div>
               <!-- card-body.// -->
             </div>
@@ -209,55 +211,24 @@
             <div class="card mt-3">
               <div class="card-header">You may like</div>
               <div class="card-body row">
-                <div class="col-md-12 col-sm-3">
+                <div class="col-md-12 col-sm-3"  v-for="(relatedProduct,index) in product.relatedProducts" v-bind:key="index">
                   <figure class="item border-bottom mb-3">
-                    <a href="#" class="img-wrap">
-                      <img src="images/items/2.jpg" class="img-md" />
-                    </a>
+                    <router-link :to="{ name: 'product-detail', params: { id: relatedProduct.slug }}" class="img-wrap">
+                      <img :src="relatedProduct.image" class="img-md" />
+                    </router-link>
                     <figcaption class="info-wrap">
-                      <a href="#" class="title">The name of product</a>
-                      <div class="price-wrap mb-3">
+                     <router-link :to="{ name: 'product-detail', params: { id: relatedProduct.slug }}" class="title">{{relatedProduct.name}}</router-link>
+                      <!--<div class="price-wrap mb-3">
                         <span class="price-new">$280</span>
                         <del class="price-old">$280</del>
-                      </div>
+                      </div>-->
                       <!-- price-wrap.// -->
                     </figcaption>
                   </figure>
                   <!-- card-product // -->
                 </div>
                 <!-- col.// -->
-                <div class="col-md-12 col-sm-3">
-                  <figure class="item border-bottom mb-3">
-                    <a class="img-wrap">
-                      <img src="images/items/3.jpg" class="img-md" />
-                    </a>
-                    <figcaption class="info-wrap">
-                      <a href="#" class="title">The name of product</a>
-                      <div class="price-wrap mb-3">
-                        <span class="price-new">$280</span>
-                      </div>
-                      <!-- price-wrap.// -->
-                    </figcaption>
-                  </figure>
-                  <!-- card-product // -->
-                </div>
-                <!-- col.// -->
-                <div class="col-md-12 col-sm-3">
-                  <figure class="item border-bottom mb-3">
-                    <a href="#" class="img-wrap">
-                      <img src="images/items/4.jpg" class="img-md" />
-                    </a>
-                    <figcaption class="info-wrap">
-                      <a href="#" class="title">The name of product</a>
-                      <div class="price-wrap mb-3">
-                        <span class="price-new">$280</span>
-                      </div>
-                      <!-- price-wrap.// -->
-                    </figcaption>
-                  </figure>
-                  <!-- card-product // -->
-                </div>
-                <!-- col.// -->
+               
               </div>
               <!-- card-body.// -->
             </div>
@@ -283,7 +254,9 @@ export default {
   
   data(){
 	  return {
-		  products: [],
+      products: [],
+      color:null,
+      size:null
 		  
 		  
 
