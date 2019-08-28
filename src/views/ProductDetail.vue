@@ -1,5 +1,6 @@
 <template>
   <div >
+    <Navbar></Navbar>
   <div v-for="(product, index) in products" v-bind:key="index">
    
     <!-- ========================= SECTION TOPBAR ========================= -->
@@ -166,10 +167,13 @@
                     </div>
                     <!-- row.// -->
                     <hr />
-                    <a href="#" class="btn btn-warning">
-                      <i class="fa fa-envelope"></i> Contact Supplier
-                    </a>
-                    <a href="#" class="btn btn-outline-warning">Start Order</a>
+                    <add-to-cart
+                      :image="getImage(product.images)"
+                      :pId="product.id"
+                      :price="product.price"
+                      :name="product.name"
+                    ></add-to-cart>
+                   
                     <!-- short-info-wrap .// -->
                   </article>
                   <!-- card-body.// -->

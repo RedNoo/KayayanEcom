@@ -112,7 +112,9 @@
 					<div class="icontext">
 						<div class="icon-wrap"><i class="text-warning icon-sm fa fa-shopping-cart"></i></div>
 						<div class="text-wrap text-dark">
-							Order <br> Protection 
+							<button type="button"  data-toggle="modal" data-target="#cartModal">
+  Cart
+</button>
 						</div>
 					</div>
 				</a>
@@ -133,7 +135,32 @@
 </div> <!-- row.// -->
 	</div> <!-- container.// -->
 </section> <!-- header-main .// -->
+<!-- Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Shoping Cart</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul v-for="(item,index) in this.$store.state.cart" v-bind:key="index">
+			<li>{{item.productName}}</li>
+
+		</ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+        <button type="button" class="btn btn-primary">Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>
 </header> <!-- section-header.// -->
+
+
 </template>
 
 
