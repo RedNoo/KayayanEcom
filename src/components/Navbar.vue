@@ -2,7 +2,7 @@
   <header class="section-header">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
           <img
             class="logo"
             src="../assets/images/logos/logo-alibaba.png"

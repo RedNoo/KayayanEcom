@@ -37,7 +37,9 @@ export default new Router({
     {
       path: "/products/:id",
       name: "product-detail",
-      component: ProductDetail
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/ProductDetail.vue")
+      //component: ProductDetail
     },
     {
       path: "/about",
@@ -47,6 +49,15 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
+    },
+    {
+      path: "/checkout",
+      name: "checkout",
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Checkout.vue")
     }
   ]
 });
