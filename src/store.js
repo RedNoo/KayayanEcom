@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
+let cart = window.localStorage.getItem('cart');
 
 export default new Vuex.Store({
     state: {
-      cart: []
+      cart: cart ? JSON.parse(cart) :[],
     },
     mutations:{
         addToCart(state, item){
@@ -18,6 +20,12 @@ export default new Vuex.Store({
               state.cart.push(item);
 
             }
+
+            this.commit('sendData');
+        },
+        sendData(state){
+          window.localStorage.setItem("cart",JSON.stringify(state.cart));
+
         }
     }
   }) 
